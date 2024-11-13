@@ -5,29 +5,35 @@ import { getContract } from '../utils/helpers';
 import { ethers } from 'ethers';
 
 const Container = styled.div`
-    padding: 20px;
+    width: 100%;
 `;
 
 const SectionTitle = styled.h2`
-    text-align: center;
+    color: #fff;
     margin-bottom: 20px;
+    font-size: 24px;
 `;
 
 const Table = styled.table`
     width: 100%;
     border-collapse: collapse;
-    background: #3a3a4f;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
 `;
 
 const Th = styled.th`
-    padding: 12px;
-    border: 1px solid #4e54c8;
+    padding: 15px;
+    border-bottom: 2px solid #4e54c8;
+    text-align: left;
+    font-size: 18px;
 `;
 
 const Td = styled.td`
-    padding: 12px;
-    border: 1px solid #4e54c8;
-    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #4e54c8;
+    font-size: 16px;
+    color: #ddd;
 `;
 
 const AllLotteryResults = () => {
@@ -50,19 +56,16 @@ const AllLotteryResults = () => {
 
             // Process the draws data
             const formattedDraws = allDraws.map((draw) => {
-                // Convert BigNumber to number and format accordingly
+                const totalPrize = draw.winners.reduce(
+                    (acc, winner) => acc.add(winner.amount),
+                    ethers.BigNumber.from(0)
+                );
+
                 return {
                     drawId: draw.drawId.toNumber(),
                     winningNumber: draw.winningNumber,
                     drawTime: new Date(draw.drawTime.toNumber() * 1000).toLocaleString(),
-                    totalPrize: draw.winners.length > 0
-                        ? ethers.utils.formatEther(
-                            draw.winners.reduce(
-                                (acc, winner) => acc.add(winner.amount),
-                                ethers.BigNumber.from(0)
-                            )
-                        )
-                        : '0 ETH',
+                    totalPrize: ethers.utils.formatEther(totalPrize),
                 };
             });
 

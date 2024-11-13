@@ -2,22 +2,26 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #1e1e2f, #3a3a4f);
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
-  }
+    body {
+        margin: 0;
+        padding: 0;
+        background: #111; /* Dark Background */
+        color: #fff; /* Default text color */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+    a {
+        color: #4e54c8; /* Vibrant Link Color */
+        text-decoration: none;
+    }
 
-  * {
-    box-sizing: border-box;
-  }
+    a:hover {
+        text-decoration: underline;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
 `;
 
 export default GlobalStyles;

@@ -4,29 +4,35 @@ import styled from 'styled-components';
 import { getContract } from '../utils/helpers';
 
 const Container = styled.div`
-    padding: 20px;
+    width: 100%;
 `;
 
 const SectionTitle = styled.h2`
-    text-align: center;
+    color: #fff;
     margin-bottom: 20px;
+    font-size: 24px;
 `;
 
 const Table = styled.table`
     width: 100%;
     border-collapse: collapse;
-    background: #3a3a4f;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
 `;
 
 const Th = styled.th`
-    padding: 12px;
-    border: 1px solid #4e54c8;
+    padding: 15px;
+    border-bottom: 2px solid #4e54c8;
+    text-align: left;
+    font-size: 18px;
 `;
 
 const Td = styled.td`
-    padding: 12px;
-    border: 1px solid #4e54c8;
-    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #4e54c8;
+    font-size: 16px;
+    color: #ddd;
 `;
 
 const MyPurchaseHistory = () => {
@@ -45,28 +51,19 @@ const MyPurchaseHistory = () => {
             // Get user address
             const userAddress = await contract.signer.getAddress();
 
-            // Define the filter for TicketPurchased events for this user
-            const filter = contract.filters.TicketPurchased(userAddress, null, null, null);
+            // Fetch all tickets using the getUserTickets() function
+            const userTickets = await contract.getUserTickets(userAddress);
 
-            // Fetch all TicketPurchased events for the user
-            const events = await contract.queryFilter(filter, 0, 'latest');
+            // Process tickets
+            const formattedTickets = userTickets.map((ticket) => ({
+                buyer: ticket.buyer,
+                number: ticket.number,
+                purchaseTime: new Date(ticket.purchaseTime.toNumber() * 1000).toLocaleString(),
+                result: 'Not Drawn', // Placeholder
+                prize: '0 ETH', // Placeholder
+            }));
 
-            // Process events to extract tickets
-            let userTickets = [];
-            events.forEach((event) => {
-                const { number, quantity, timestamp } = event.args;
-                for (let i = 0; i < quantity; i++) {
-                    userTickets.push({
-                        buyer: userAddress,
-                        number,
-                        purchaseTime: new Date(timestamp.toNumber() * 1000).toLocaleString(),
-                        result: 'Not Drawn', // Placeholder
-                        prize: '0 ETH', // Placeholder
-                    });
-                }
-            });
-
-            setTickets(userTickets);
+            setTickets(formattedTickets);
         } catch (error) {
             console.error('Error fetching tickets', error);
             alert('Failed to fetch tickets.');

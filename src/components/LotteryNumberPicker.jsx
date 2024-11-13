@@ -1,10 +1,10 @@
-// src/components/LotteryNumberPicker.js
+// src/components/LotteryNumberPicker.jsx
 import React from 'react';
 import styled from 'styled-components';
 
 const PickerContainer = styled.div`
     display: flex;
-    gap: 10px;
+    gap: 15px;
 `;
 
 const DigitPicker = styled.select`
@@ -12,21 +12,28 @@ const DigitPicker = styled.select`
     height: 60px;
     padding: 10px;
     background: #2c2c3c;
-    color: #ffffff;
+    color: #fff;
     border: 2px solid #4e54c8;
     border-radius: 10px;
     font-size: 24px;
     text-align: center;
     cursor: pointer;
-    transition: border 0.3s;
+    transition: border 0.3s, transform 0.2s;
 
     &:hover {
-        border: 2px solid #ffffff;
+        border-color: #ff6f61;
+        transform: scale(1.05);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #ff6f61;
     }
 
     option {
         background: #2c2c3c;
-        color: #ffffff;
+        color: #fff;
+        padding: 10px;
     }
 `;
 

@@ -1,28 +1,33 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
 import Navbar from './components/Navbar';
-import PurchaseTickets from './components/PurchaseTickets';
-import MyPurchaseHistory from './components/MyPurchaseHistory';
-import AllLotteryResults from './components/AllLotteryResults';
-import Rules from './components/Rules';
+import HomePage from './components/HomePage';
 import GlobalStyles from './styles/GlobalStyles';
 
 function App() {
     return (
-        <Router>
+        <AppContainer>
             <GlobalStyles />
             <Navbar />
-            <div style={{ padding: '20px' }}>
-                <Routes>
-                    <Route path="/" element={<PurchaseTickets />} />
-                    <Route path="/history" element={<MyPurchaseHistory />} />
-                    <Route path="/results" element={<AllLotteryResults />} />
-                    <Route path="/rules" element={<Rules />} />
-                </Routes>
-            </div>
-        </Router>
+            <MainContent>
+                <HomePage />
+            </MainContent>
+        </AppContainer>
     );
 }
 
 export default App;
+
+// Styled Components
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const MainContent = styled.div`
+  flex: 1;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a4f); /* Dark Gradient Background */
+`;

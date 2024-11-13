@@ -1,53 +1,47 @@
 // src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const Nav = styled.nav`
-  background: #2c2c3c;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background: #1f1f2e;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
-  margin: 0;
-  font-size: 24px;
-`;
-
-const NavLinks = styled.div`
-  display: flex;
-  gap: 15px;
-`;
-
-const StyledLink = styled(Link)`
-  color: #ffffff;
-  font-size: 16px;
-  &:hover {
+    margin: 0;
+    font-size: 28px;
     color: #4e54c8;
-  }
 `;
+
 
 const ConnectButton = styled.button`
-  background: #4e54c8;
-  border: none;
-  padding: 10px 20px;
-  color: #ffffff;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+    background: #4e54c8;
+    border: none;
+    padding: 10px 25px;
+    color: #fff;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+
+    &:hover {
+        background: #6455d1;
+    }
 `;
 
 const Address = styled.span`
-  background: #4e54c8;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 14px;
-  color: #ffffff;
+    background: #4e54c8;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #fff;
 `;
 
 const Navbar = () => {
@@ -61,7 +55,7 @@ const Navbar = () => {
                 });
                 setCurrentAccount(accounts[0]);
             } catch (error) {
-                console.error('Error connecting to MetaMask', error);
+                console.error('Connection Error:', error);
             }
         } else {
             alert('MetaMask is not installed. Please install it to use this dApp!');
@@ -70,9 +64,7 @@ const Navbar = () => {
 
     const truncateAddress = (address) => {
         if (!address) return '';
-        return `${address.substring(0, 6)}...${address.substring(
-            address.length - 4
-        )}`;
+        return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
     };
 
     useEffect(() => {
@@ -86,6 +78,7 @@ const Navbar = () => {
         };
 
         checkWalletConnected();
+
         // Listen for account changes
         if (window.ethereum) {
             window.ethereum.on('accountsChanged', (accounts) => {
@@ -96,7 +89,7 @@ const Navbar = () => {
                 }
             });
 
-            window.ethereum.on('chainChanged', (chainId) => {
+            window.ethereum.on('chainChanged', () => {
                 window.location.reload();
             });
         }
@@ -109,16 +102,10 @@ const Navbar = () => {
         };
     }, []);
 
-
     return (
         <Nav>
             <Title>Decentralized Lottery</Title>
-            <NavLinks>
-                <StyledLink to="/">Purchase Tickets</StyledLink>
-                <StyledLink to="/history">My Purchase History</StyledLink>
-                <StyledLink to="/results">All Lottery Results</StyledLink>
-                <StyledLink to="/rules">Rules</StyledLink>
-            </NavLinks>
+
             {currentAccount ? (
                 <Address>{truncateAddress(currentAccount)}</Address>
             ) : (
